@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useAppsStateStore } from "../9StateStore/useAppsStateStore"
 import { getVersion } from '@tauri-apps/api/app';
 
+export const APPNAME = "autool";
+
 const Route = () => {
     const { route } = useAppsStateStore();
     const [version, setVersion] = useState<string>("")
@@ -14,7 +16,7 @@ const Route = () => {
         <>
             {route.map((name:string, index:number)=>{
               return(
-                  (name==='bongkow')?
+                  (name===APPNAME)?
                   <RouteButton key={`${name}_v${version}`} name={`${name}_${version}`} index={index}/>:
                   <RouteButton key={name} name={name} index={index}/>
               )
@@ -30,7 +32,7 @@ const RouteButton = ({name, index}:{name:string, index:number}) => {
       switch (index) {
         case 0 : 
           setSelectedApp(undefined);
-          setRoute(["bongkow"])
+          setRoute([APPNAME])
           break;
         
         default :

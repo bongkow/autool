@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    bongkow_dsk_lib::run()
+    autool_lib::run()
 }

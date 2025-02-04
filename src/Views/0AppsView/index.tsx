@@ -1,14 +1,10 @@
 import { useTransition, lazy, Suspense, useEffect } from "react"
 import { useAppsStateStore } from "../9StateStore/useAppsStateStore"
 import Route from "./Route"
-import Camels from "../3Camels"
-import Kimmail from "../4KimchImail"
+import CreatingView from "../1Creating"
+import VerifyingView from "../3VerifyingView"
+import SigningView from "../2SigningView"
 //import { invoke } from "@tauri-apps/api/core"
-
-
-
-const NotesView = lazy(() => import("../1NotesView"))
-const WalletsView = lazy(() => import("../2Wallets"))
 
 export type Position = { x: number; y: number }
 
@@ -46,12 +42,12 @@ export default function AppsView() {
         ) : (
           <div className="bg-white transition-all duration-300 ease-in-out h-full flex flex-col">
             <Suspense fallback={<LoadingSpinner />}>
-              {selectedApp === 'note' ? (
-                <NotesView />
-              ) : selectedApp === 'wallets' ? (
-                <WalletsView />
-              ) : selectedApp === 'camels' ? (
-                <Camels />
+              {selectedApp === 'creating' ? (
+                <CreatingView />
+              ) : selectedApp === 'signing' ? (
+                <SigningView />
+              ) : selectedApp === 'verifying' ? (
+                <VerifyingView />
               ) : selectedApp === 'kimchimail' ? (
                 <Kimmail />
               ) :
