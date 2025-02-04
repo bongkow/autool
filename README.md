@@ -1,4 +1,4 @@
-# AUTOOL
+# autool
 
 This Tauri application provides local generation, encryption, and management of Ethereum private keys, plus message signing using those keys. The project combines a Rust backend (for secure cryptographic operations via the ethers and aes-gcm crates) with a React + TypeScript frontend for an interactive desktop application experience.
 
@@ -89,6 +89,6 @@ This Tauri application provides local generation, encryption, and management of 
 
 ---
 
-Thank you for using BONGKOW-DSK! This project aims to keep your Ethereum keys secure, purely in a local and offline environment, while allowing smooth development experience thanks to Tauri, React, TypeScript, and Tailwind CSS.
+Thank you for using autool! This project aims to keep your Ethereum keys secure, purely in a local and offline environment, while allowing smooth development experience thanks to Tauri, React, TypeScript, and Tailwind CSS.
 
 
