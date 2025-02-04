@@ -17,7 +17,7 @@ export const useKeyPairGeneration = () => {
       setError(null);
       
       // Invoke the Rust backend function to generate key pair
-      console.log(encryptionKey);
+      console.log('password', encryptionKey);
       const response:{address:string, public_key:string} = await invoke('generate_eth_keypair', {
         enckey: encryptionKey
       });

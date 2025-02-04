@@ -22,12 +22,14 @@ export const useMessageSigning = (): UseMessageSigningReturn => {
     
     setIsLoading(true);
     try {
-      const privateKey = await invoke('get_private_key', { enckey: encryptionKey });
-      console.log('privateKey', privateKey);
+      const signature = await invoke('generate_ethereum_signature', { enckey: encryptionKey, message: message });
+      console.log('signature', signature);
       // TODO: Implement actual signing with the private key
-      setSignature(String(privateKey)); // Temporary for testing
+      setSignature(String(signature)); // Temporary for testing
     } catch (error) {
       console.error('Error signing message:', error);
+      alert(error);
+      setSignature("");
     } finally {
       setIsLoading(false);
     }

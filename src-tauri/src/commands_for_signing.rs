@@ -7,7 +7,43 @@ use base64::{engine::general_purpose, Engine};
 const PRIVATE_KEY_FILE: &str = "private_key.enc"; 
 const NONCE_LEN: usize = 12; // For ChaCha20-Poly1305
 
+/// Signs a plain message with an Ethereum private key
+/// Returns a hex-encoded Ethereum signature
 #[tauri::command]
+pub async fn generate_ethereum_signature(
+    enckey: &str,
+    message: &str
+) -> Result<String, String> {
+    use ethers::core::types::Signature;
+    use ethers::core::utils::keccak256;
+    use ethers::signers::LocalWallet;
+    println!("enckey: {}", enckey);
+    println!("message: {}", message);
+    // Attempt to parse the private key
+    let private_key = get_private_key(enckey.to_string())
+        .await
+        .map_err(|e| e.to_string())?;  // Convert any incoming error to String
+    println!("private_key: {}", private_key);
+    let wallet = private_key
+        .parse::<LocalWallet>()
+        .map_err(|e| e.to_string())?;
+
+    // Format the message for Ethereum Signed Messages
+    let prefix = format!("\x19Ethereum Signed Message:\n{}", message.len());
+    let prefixed_message = format!("{}{}", prefix, message);
+
+    // Hash the message using Keccak256
+    let message_hash = keccak256(prefixed_message.as_bytes());
+
+    // Sign the hash with the private key
+    let signature: Signature = wallet
+        .sign_hash(message_hash.into())
+        .map_err(|e| e.to_string())?;
+
+    // Return the hex-encoded signature
+    Ok(format!("0x{}", hex::encode(signature.to_vec())))
+}
+
 pub async fn get_private_key(enckey: String) -> Result<String, String> {
     use aes_gcm::{
         aead::{Aead, KeyInit},
@@ -43,7 +79,7 @@ pub async fn get_private_key(enckey: String) -> Result<String, String> {
     // 6. Decrypt the ciphertext
     let decrypted_bytes = cipher
         .decrypt(nonce, ciphertext)
-        .map_err(|_| "Decryption failed".to_string())?;
+        .map_err(|_| "Wrong password!".to_string())?;
 
     // 7. Convert the decrypted bytes (hex string) to `String`
     let private_key_hex = String::from_utf8(decrypted_bytes)
