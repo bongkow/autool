@@ -21,10 +21,22 @@ This Tauri application provides local generation, encryption, and management of 
    - Once decrypted, it signs a user-provided message using the standard "Ethereum Signed Message" prefix.  
    - The resulting signature is returned to the frontend in hex format (with a 0x prefix).
 
-4. **Offline & Local-Only**  
+4. **Verify a Signature**  
+   - Input the original message, the signature (0x-prefixed hex), and the signer's Ethereum address
+   - The app recovers the signer's address from the signature and message
+   - Returns true if the recovered address matches the provided address, false otherwise
+   - Handles all common error cases (invalid signature format, recovery failures) gracefully by returning false
+
+The verification process:
+1. The message is hashed with the standard Ethereum prefix ("\x19Ethereum Signed Message:\n" + message length)
+2. The signature (65 bytes: r + s + v) is parsed from its hex format
+3. The signer's address is recovered using the signature and message hash
+4. The recovered address is compared with the expected address
+
+5. **Offline & Local-Only**  
    - Everything runs entirely on the user's machine. No server integration is required, so private keys never leave the user's local environment.
 
-5. **Frontend**  
+6. **Frontend**  
    - Built in React with TypeScript for type-safe component development.  
    - Uses custom React hooks (useKeyPairGeneration, useMessageSigning) so that logic is separated from UI, making the code more maintainable.  
    - Styled with Tailwind CSS classes, keeping design consistent and minimal.
@@ -58,6 +70,18 @@ This Tauri application provides local generation, encryption, and management of 
 
 2. **Sign a Message**  
    - Click "Sign Message" → Provide the same passphrase → Type a message → The app decrypts the private key and returns a valid Ethereum signature.
+
+3. **Verify a Signature**  
+   - Input the original message, the signature (0x-prefixed hex), and the signer's Ethereum address
+   - The app recovers the signer's address from the signature and message
+   - Returns true if the recovered address matches the provided address, false otherwise
+   - Handles all common error cases (invalid signature format, recovery failures) gracefully by returning false
+
+The verification process:
+1. The message is hashed with the standard Ethereum prefix ("\x19Ethereum Signed Message:\n" + message length)
+2. The signature (65 bytes: r + s + v) is parsed from its hex format
+3. The signer's address is recovered using the signature and message hash
+4. The recovered address is compared with the expected address
 
 ---
 

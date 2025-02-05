@@ -1,10 +1,10 @@
-import { useTransition, lazy, Suspense, useEffect } from "react"
+import { useTransition, Suspense, useEffect } from "react"
 import { useAppsStateStore } from "../9StateStore/useAppsStateStore"
 import Route from "./Route"
 import CreatingView from "../1Creating"
 import VerifyingView from "../3VerifyingView"
 import SigningView from "../2SigningView"
-//import { invoke } from "@tauri-apps/api/core"
+
 
 export type Position = { x: number; y: number }
 
@@ -48,8 +48,6 @@ export default function AppsView() {
                 <SigningView />
               ) : selectedApp === 'verifying' ? (
                 <VerifyingView />
-              ) : selectedApp === 'kimchimail' ? (
-                <Kimmail />
               ) :
                 <div className="text-center text-gray-600">App Not Found</div>
               }
